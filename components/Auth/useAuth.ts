@@ -47,6 +47,7 @@ export function useAuth() {
 
   const logout = useCallback(() => {
     persist(null);
+    authApi.logout();
   }, []);
 
   return { account, login, register, logout };
