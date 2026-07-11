@@ -139,11 +139,13 @@ const Navbar: React.FC<NavbarProps> = ({
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = "var(--nav-text)";
-              e.currentTarget.style.border = "1px solid var(--panel-dark)";
+              e.currentTarget.style.background = "var(--nav-bg-active)";
+              e.currentTarget.style.boxShadow = "inset 2px 2px 0 var(--nav-border-dark), inset -2px -2px 0 var(--nav-border-light)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = "var(--nav-text-dim)";
-              e.currentTarget.style.border = "1px solid transparent";
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.boxShadow = "none";
             }}
           >
             Tính năng
@@ -166,11 +168,13 @@ const Navbar: React.FC<NavbarProps> = ({
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = "var(--nav-text)";
-              e.currentTarget.style.border = "1px solid var(--panel-dark)";
+              e.currentTarget.style.background = "var(--nav-bg-active)";
+              e.currentTarget.style.boxShadow = "inset 2px 2px 0 var(--nav-border-dark), inset -2px -2px 0 var(--nav-border-light)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = "var(--nav-text-dim)";
-              e.currentTarget.style.border = "1px solid transparent";
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.boxShadow = "none";
             }}
           >
             Đội ngũ
