@@ -112,11 +112,18 @@ const Navbar: React.FC<NavbarProps> = ({
               padding: "6px 12px",
               margin: "0 2px",
               background: "transparent",
-              border: "none",
+              border: "1px solid transparent",
               cursor: "pointer",
               borderRadius: "0",
-              transition: "all 0.15s",
-              borderBottom: currentPage === "home" ? "3px solid var(--grass)" : "3px solid transparent"
+              transition: "all 0.15s"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "var(--nav-bg-active)";
+              e.currentTarget.style.boxShadow = "inset 2px 2px 0 var(--nav-border-dark), inset -2px -2px 0 var(--nav-border-light)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.boxShadow = "none";
             }}
           >
             Trang chủ
@@ -132,19 +139,20 @@ const Navbar: React.FC<NavbarProps> = ({
               padding: "6px 12px",
               margin: "0 2px",
               background: "transparent",
-              border: "none",
+              border: "1px solid transparent",
               cursor: "pointer",
               borderRadius: "0",
-              transition: "all 0.15s",
-              borderBottom: "3px solid transparent"
+              transition: "all 0.15s"
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = "var(--nav-text)";
-              e.currentTarget.style.borderBottom = "3px solid var(--grass)";
+              e.currentTarget.style.background = "var(--nav-bg-active)";
+              e.currentTarget.style.boxShadow = "inset 2px 2px 0 var(--nav-border-dark), inset -2px -2px 0 var(--nav-border-light)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = "var(--nav-text-dim)";
-              e.currentTarget.style.borderBottom = "3px solid transparent";
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.boxShadow = "none";
             }}
           >
             Tính năng
@@ -160,19 +168,20 @@ const Navbar: React.FC<NavbarProps> = ({
               padding: "6px 12px",
               margin: "0 2px",
               background: "transparent",
-              border: "none",
+              border: "1px solid transparent",
               cursor: "pointer",
               borderRadius: "0",
-              transition: "all 0.15s",
-              borderBottom: "3px solid transparent"
+              transition: "all 0.15s"
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = "var(--nav-text)";
-              e.currentTarget.style.borderBottom = "3px solid var(--grass)";
+              e.currentTarget.style.background = "var(--nav-bg-active)";
+              e.currentTarget.style.boxShadow = "inset 2px 2px 0 var(--nav-border-dark), inset -2px -2px 0 var(--nav-border-light)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = "var(--nav-text-dim)";
-              e.currentTarget.style.borderBottom = "3px solid transparent";
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.boxShadow = "none";
             }}
           >
             Đội ngũ
