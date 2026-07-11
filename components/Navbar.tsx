@@ -115,8 +115,7 @@ const Navbar: React.FC<NavbarProps> = ({
               border: "1px solid transparent",
               cursor: "pointer",
               borderRadius: "0",
-              transition: "all 0.15s",
-              borderBottom: currentPage === "home" ? "3px solid var(--grass)" : "3px solid transparent"
+              transition: "all 0.15s"
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = "var(--nav-bg-active)";
