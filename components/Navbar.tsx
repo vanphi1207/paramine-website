@@ -133,6 +133,7 @@ const Navbar: React.FC<NavbarProps> = ({
               margin: "0 2px",
               background: "transparent",
               border: "1px solid transparent",
+              borderBottom: "3px solid transparent",
               cursor: "pointer",
               borderRadius: "0",
               transition: "all 0.15s"
@@ -141,12 +142,14 @@ const Navbar: React.FC<NavbarProps> = ({
               e.currentTarget.style.color = "var(--nav-text)";
               e.currentTarget.style.background = "#1a1a1a";
               e.currentTarget.style.border = "1px solid var(--panel-dark)";
+              e.currentTarget.style.borderBottom = "3px solid var(--grass)";
               e.currentTarget.style.boxShadow = "inset 1px 1px 0 rgba(255, 255, 255, 0.15), inset -1px -1px 0 rgba(0, 0, 0, 0.4)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = "var(--nav-text-dim)";
               e.currentTarget.style.background = "transparent";
               e.currentTarget.style.border = "1px solid transparent";
+              e.currentTarget.style.borderBottom = "3px solid transparent";
               e.currentTarget.style.boxShadow = "none";
             }}
           >
@@ -164,6 +167,7 @@ const Navbar: React.FC<NavbarProps> = ({
               margin: "0 2px",
               background: "transparent",
               border: "1px solid transparent",
+              borderBottom: "3px solid transparent",
               cursor: "pointer",
               borderRadius: "0",
               transition: "all 0.15s"
@@ -172,12 +176,14 @@ const Navbar: React.FC<NavbarProps> = ({
               e.currentTarget.style.color = "var(--nav-text)";
               e.currentTarget.style.background = "#1a1a1a";
               e.currentTarget.style.border = "1px solid var(--panel-dark)";
+              e.currentTarget.style.borderBottom = "3px solid var(--grass)";
               e.currentTarget.style.boxShadow = "inset 1px 1px 0 rgba(255, 255, 255, 0.15), inset -1px -1px 0 rgba(0, 0, 0, 0.4)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = "var(--nav-text-dim)";
               e.currentTarget.style.background = "transparent";
               e.currentTarget.style.border = "1px solid transparent";
+              e.currentTarget.style.borderBottom = "3px solid transparent";
               e.currentTarget.style.boxShadow = "none";
             }}
           >
