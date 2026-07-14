@@ -43,7 +43,7 @@ export interface Feature {
   stats?: { label: string; value: string }[];
 }
 
-export type PageView = "home" | "wiki";
+export type PageView = "home" | "wiki" | "admin";
 
 export interface GalleryPeriod {
   id: string;

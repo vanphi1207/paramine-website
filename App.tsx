@@ -10,15 +10,25 @@ import Footer from "./components/Footer";
 import Reveal from "./components/Reveal";
 import BackgroundMusic from "./components/BackgroundMusic";
 import AuthModal from "./components/Auth/AuthModal";
+import AdminDashboard from "./components/Admin/AdminDashboard.tsx";
 import { useAuth } from "./components/Auth/useAuth";
 import { ArrowUp } from "lucide-react";
 import { PageView } from "./types";
+import { isAdminAccount } from "./lib/api";
 
 function App() {
   const [currentPage, setCurrentPage] = useState<PageView>("home");
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { account, login, register, logout } = useAuth();
+  const canAccessAdmin = isAdminAccount(account);
+
+  // Không cho phép ở lại trang admin nếu tài khoản không có quyền (hoặc đăng xuất giữa chừng)
+  useEffect(() => {
+    if (currentPage === "admin" && !canAccessAdmin) {
+      setCurrentPage("home");
+    }
+  }, [currentPage, canAccessAdmin]);
 
   const navigateSection = (id: string) => {
     const element = document.getElementById(id);
@@ -132,6 +142,13 @@ function App() {
       )}
 
       {currentPage === "wiki" && <Wiki />}
+
+      {currentPage === "admin" && account && canAccessAdmin && (
+        <AdminDashboard
+          account={account}
+          onBack={() => setCurrentPage("home")}
+        />
+      )}
 
       <Footer />
 

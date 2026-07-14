@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Box, User, LogOut } from "lucide-react";
+import { Menu, X, Box, User, LogOut, ShieldCheck } from "lucide-react";
 import { PageView } from "../types";
 import { VOTE_LINK } from "../constants";
-import { AccountView } from "../lib/api.ts";
+import { AccountView, isAdminAccount } from "../lib/api.ts";
 
 interface NavbarProps {
   currentPage: PageView;
@@ -21,6 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({
   onOpenAuth,
   onLogout,
 }) => {
+  const showAdminLink = isAdminAccount(account);
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -41,6 +42,9 @@ const Navbar: React.FC<NavbarProps> = ({
       } else if (target === "wiki") {
         setCurrentPage("wiki");
         window.scrollTo({ top: 0, behavior: "smooth" });
+      } else if (target === "admin") {
+        setCurrentPage("admin");
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     } else {
       if (currentPage !== "home") {
@@ -53,54 +57,68 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="navbar" style={{
-      position: "sticky",
-      top: 0,
-      zIndex: 50,
-      background: "var(--nav-bg)",
-      fontFamily: "var(--pixel)",
-      height: "64px"
-    }}>
-      <div className="navbar-inner" style={{
-        maxWidth: "1180px",
-        margin: "0 auto",
-        padding: "0 2rem",
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between"
-      }}>
-        <a 
+    <header
+      className="navbar"
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        background: "var(--nav-bg)",
+        fontFamily: "var(--pixel)",
+        height: "64px",
+      }}
+    >
+      <div
+        className="navbar-inner"
+        style={{
+          maxWidth: "1180px",
+          margin: "0 auto",
+          padding: "0 2rem",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <a
           className="navbar__brand"
           onClick={() => handleNavClick("home", true)}
           style={{
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            cursor: "pointer"
+            cursor: "pointer",
           }}
         >
-          <span style={{
-            width: "28px",
-            height: "28px",
-            flex: "0 0 auto",
-            background: "linear-gradient(180deg, var(--sandstone) 0 34%, var(--sandstone-dark) 34% 68%, var(--dirt) 68% 100%)",
-            imageRendering: "pixelated",
-            boxShadow: "0 0 0 2px var(--panel-dark)"
-          }}></span>
-          <span style={{
-            color: "var(--nav-text)",
-            fontWeight: "800",
-            letterSpacing: "1.5px",
-            textShadow: "2px 2px 0 rgba(0, 0, 0, 0.35)",
-            textTransform: "uppercase",
-            fontSize: "0.95rem"
-          }}>
+          <span
+            style={{
+              width: "28px",
+              height: "28px",
+              flex: "0 0 auto",
+              background:
+                "linear-gradient(180deg, var(--sandstone) 0 34%, var(--sandstone-dark) 34% 68%, var(--dirt) 68% 100%)",
+              imageRendering: "pixelated",
+              boxShadow: "0 0 0 2px var(--panel-dark)",
+            }}
+          ></span>
+          <span
+            style={{
+              color: "var(--nav-text)",
+              fontWeight: "800",
+              letterSpacing: "1.5px",
+              textShadow: "2px 2px 0 rgba(0, 0, 0, 0.35)",
+              textTransform: "uppercase",
+              fontSize: "0.95rem",
+            }}
+          >
             Paramine
           </span>
         </a>
 
-        <nav className="navbar__items" style={{ display: "flex", alignItems: "center", marginLeft: "auto" }}>
+        <nav
+          className="navbar__items"
+          style={{ display: "flex", alignItems: "center", marginLeft: "auto" }}
+        >
           <button
             onClick={() => handleNavClick("home", true)}
             style={{
@@ -115,11 +133,12 @@ const Navbar: React.FC<NavbarProps> = ({
               border: "1px solid transparent",
               cursor: "pointer",
               borderRadius: "0",
-              transition: "all 0.15s"
+              transition: "all 0.15s",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = "var(--nav-bg-active)";
-              e.currentTarget.style.boxShadow = "inset 2px 2px 0 var(--nav-border-dark), inset -2px -2px 0 var(--nav-border-light)";
+              e.currentTarget.style.boxShadow =
+                "inset 2px 2px 0 var(--nav-border-dark), inset -2px -2px 0 var(--nav-border-light)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "transparent";
@@ -142,12 +161,13 @@ const Navbar: React.FC<NavbarProps> = ({
               border: "1px solid transparent",
               cursor: "pointer",
               borderRadius: "0",
-              transition: "all 0.15s"
+              transition: "all 0.15s",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = "var(--nav-text)";
               e.currentTarget.style.background = "var(--nav-bg-active)";
-              e.currentTarget.style.boxShadow = "inset 2px 2px 0 var(--nav-border-dark), inset -2px -2px 0 var(--nav-border-light)";
+              e.currentTarget.style.boxShadow =
+                "inset 2px 2px 0 var(--nav-border-dark), inset -2px -2px 0 var(--nav-border-light)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = "var(--nav-text-dim)";
@@ -171,12 +191,13 @@ const Navbar: React.FC<NavbarProps> = ({
               border: "1px solid transparent",
               cursor: "pointer",
               borderRadius: "0",
-              transition: "all 0.15s"
+              transition: "all 0.15s",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = "var(--nav-text)";
               e.currentTarget.style.background = "var(--nav-bg-active)";
-              e.currentTarget.style.boxShadow = "inset 2px 2px 0 var(--nav-border-dark), inset -2px -2px 0 var(--nav-border-light)";
+              e.currentTarget.style.boxShadow =
+                "inset 2px 2px 0 var(--nav-border-dark), inset -2px -2px 0 var(--nav-border-light)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = "var(--nav-text-dim)";
@@ -186,46 +207,69 @@ const Navbar: React.FC<NavbarProps> = ({
           >
             Đội ngũ
           </button>
-          <div style={{ display: "flex", alignItems: "center", gap: "6px", marginLeft: "1rem" }}>
-          <button
-            onClick={() => handleNavClick("wiki", true)}
-            className="btn btn-primary"
-            style={{ fontSize: "0.85rem" }}
-          >
-            Wiki
-          </button>
-          {account ? (
-            <span style={{
-              color: "var(--nav-text-dim)",
-              fontSize: "0.85rem",
+          <div
+            style={{
               display: "flex",
               alignItems: "center",
               gap: "6px",
-              padding: "6px 12px"
-            }}>
-              {account.username}
-              <button
-                onClick={onLogout}
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  color: "var(--nav-text-dim)",
-                  cursor: "pointer",
-                  fontSize: "0.75rem"
-                }}
-              >
-                ✕
-              </button>
-            </span>
-          ) : (
+              marginLeft: "1rem",
+            }}
+          >
             <button
-              onClick={onOpenAuth}
-              className="btn btn-secondary"
+              onClick={() => handleNavClick("wiki", true)}
+              className="btn btn-primary"
               style={{ fontSize: "0.85rem" }}
             >
-              Đăng nhập
+              Wiki
             </button>
-          )}
+            {showAdminLink && (
+              <button
+                onClick={() => handleNavClick("admin", true)}
+                className="btn btn-secondary"
+                style={{
+                  fontSize: "0.85rem",
+                  background:
+                    currentPage === "admin" ? "var(--grass)" : undefined,
+                }}
+              >
+                <ShieldCheck style={{ width: "16px", height: "16px" }} />
+                Quản trị
+              </button>
+            )}
+            {account ? (
+              <span
+                style={{
+                  color: "var(--nav-text-dim)",
+                  fontSize: "0.85rem",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "6px 12px",
+                }}
+              >
+                {account.username}
+                <button
+                  onClick={onLogout}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    color: "var(--nav-text-dim)",
+                    cursor: "pointer",
+                    fontSize: "0.75rem",
+                  }}
+                >
+                  ✕
+                </button>
+              </span>
+            ) : (
+              <button
+                onClick={onOpenAuth}
+                className="btn btn-secondary"
+                style={{ fontSize: "0.85rem" }}
+              >
+                Đăng nhập
+              </button>
+            )}
           </div>
         </nav>
       </div>

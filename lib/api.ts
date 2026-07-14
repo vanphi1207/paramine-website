@@ -16,6 +16,26 @@ export interface AccountView {
   username: string;
   uniqueId: string;
   premium: boolean;
+  // Tuỳ chọn: backend có thể trả về vai trò tài khoản (vd: "ADMIN", "USER").
+  // Nếu backend hiện chưa trả field này, hãy bổ sung nó ở API đăng nhập/đăng ký
+  // để việc phân quyền admin ở dưới hoạt động chính xác.
+  role?: string;
+}
+
+// Danh sách username được coi là admin ngay cả khi backend chưa trả về `role`.
+// Cấu hình qua biến môi trường VITE_ADMIN_USERNAMES, cách nhau bởi dấu phẩy.
+// Ví dụ: VITE_ADMIN_USERNAMES=vanphi1207,ownerName
+const ADMIN_USERNAMES = ((import.meta as any).env.VITE_ADMIN_USERNAMES || "")
+  .split(",")
+  .map((u: string) => u.trim().toLowerCase())
+  .filter(Boolean);
+
+export function isAdminAccount(
+  account: AccountView | null | undefined,
+): boolean {
+  if (!account) return false;
+  if (account.role && account.role.toUpperCase() === "ADMIN") return true;
+  return ADMIN_USERNAMES.includes(account.username.toLowerCase());
 }
 
 export interface ApiResponse<T> {
@@ -77,6 +97,10 @@ function post<T>(path: string, body: unknown) {
   return request<T>(path, { method: "POST", body: JSON.stringify(body) });
 }
 
+function get<T>(path: string) {
+  return request<T>(path, { method: "GET" });
+}
+
 async function authenticate(
   path: string,
   body: unknown,
@@ -115,4 +139,36 @@ export const authApi = {
       await post<void>("/auth/logout", { token });
     } catch {}
   },
+};
+
+// ---- Admin dashboard ----
+// Các endpoint dưới đây là dự đoán hợp lý dựa theo quy ước của /auth/*.
+// Hãy đổi lại path cho khớp với backend thực tế (vd: /api/v1/admin/...).
+
+export interface AdminOverviewStats {
+  totalAccounts: number;
+  premiumAccounts: number;
+  onlineNow: number;
+  newAccountsToday: number;
+}
+
+export interface AdminAccountRow {
+  id: string;
+  username: string;
+  email: string;
+  premium: boolean;
+  banned: boolean;
+  createdAt?: string;
+}
+
+export const adminApi = {
+  getOverview: () => get<AdminOverviewStats>("/admin/overview"),
+
+  listAccounts: (search: string = "") =>
+    get<AdminAccountRow[]>(
+      `/admin/accounts${search ? `?search=${encodeURIComponent(search)}` : ""}`,
+    ),
+
+  setAccountBanned: (id: string, banned: boolean) =>
+    post<void>(`/admin/accounts/${id}/status`, { banned }),
 };
